@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<class name="TouchBoardInput" description="test arduino touch board">
+
+	<description type="text">
+		Touch board. Module rgar reads data from the BareConductive touch board.
+	</description>
+
+
+	<example description="A simple example">
+		<module
+			class="TouchBoardInput"
+			name="TouchBoardInput"
+			port="/dev/ttyAM0"
+		/>
+	</example>
+
+
+	<parameter
+		name="port"
+		description="Usb port"
+		type="string"
+		default="dev/ttyAM0"
+	/>
+
+	<output
+		name="OUTPUT1"
+		description="The output"
+		size="12"
+	/>
+
+
+	<output
+		name="TEXTOUTPUT"
+		description="Text output"
+		type= "string"
+		size = "3"
+	/>
+
+
+
+	<link class="TouchBoardInput" />
+
+	<view name="Touch Board View" >
+		<bar-graph  x = "20" y = "20" height = "200" width = "400" title = "Output" source = ".OUTPUT" direction = "vertical" />
+	</view>
+
+	<author>
+		<name>Pierre Klintefors</name>
+		<email></email>
+		<affiliation>Lunds University Cognitve Science</affiliation>
+	</author>
+
+	<files>
+		<file>TouchBoardInput.h</file>
+		<file>TouchBoardInput.cc</file>
+		<file>TouchBoardInput.ikc</file>
+	</files>
+
+</class>

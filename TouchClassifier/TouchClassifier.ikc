@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<class name="TouchClassifier" description="test arduino touch board">
+
+	<description type="text">
+		Classifies the type of touch. By taking input from the TouchBoard via the TouchBoardInput module
+	</description>
+
+
+	<example description="A simple example">
+		<module
+			class="TouchClassifier"
+			name="TouchClassifier"
+		/>
+	</example>
+
+
+	<input
+		name="INPUT1"
+		description="Input from the TouchBoardInputModule. A binary array (active/inactive) of the number of electrodes of the TouchBoard."
+	/>
+
+
+
+	<output
+		name="OUTPUT1"
+		description="Output of classifier of touch. Every row in this matrix will represent different type of touch
+								and the element of every row corresponds to the electrodes of the touchboard"
+		size_x = "12"
+		size_y = "5"
+	/>
+
+	<output
+		name="OUTPUT2"
+		description=" Matrix, where row get filled with output-arrays from the TouchBoardInputModule. The number of rows (set in size_y) determines the
+									time fram for when the classification of touch can tack place. One row corresponds with one tick(). "
+		size_x = "12"
+		size_y = "400"
+
+	/>
+
+
+
+	<link class="TouchClassifier" />
+
+	<view name="Touch Board View" >
+		<bar-graph  x = "20" y = "20" height = "200" width = "400" title = "Output" source = ".OUTPUT" direction = "vertical" />
+	</view>
+
+	<author>
+		<name>Pierre Klintefors</name>
+		<email></email>
+		<affiliation>Lunds University Cognitve Science</affiliation>
+	</author>
+
+	<files>
+		<file>TouchClassifier.h</file>
+		<file>TouchClassifier.cc</file>
+		<file>TouchClassifier.ikc</file>
+	</files>
+
+</class>

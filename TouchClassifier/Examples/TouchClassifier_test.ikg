@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<group title = "TouchClassifier">
+
+  <module
+    class="TouchBoardInput"
+    name="TouchInput"
+    port="/dev/ttyACM0"
+  />
+
+  <module
+    class="TouchClassifier"
+    name="TouchClassifier"
+  />
+
+	<connection source = "TouchInput.OUTPUT1" target = "TouchClassifier.INPUT1"/>
+
+    <view name="Plot of active electrodes">
+        <bar-graph
+            x="50" y="50"
+            width="1000"
+            height="700"
+            source="TouchInput.OUTPUT1"
+            min="0"
+            max="2"
+            title = "Touch Signals"
+            labels = "0,1,2,3,4,5,6,7,8,9,10,11"
+            style = "--color:red,green,blue,grey,yellow,black,purple,orange,cyan,magenta,brown,pink;--fill:red,green,blue,grey,yellow,black,purple,orange,cyan,magenta,brown,pink"
+        />
+  </view>
+
+  <view name="Output matrix">
+      <matrix matrix="OUTPUT2" width="300" height="200"/>
+
+
+  </view>
+
+</group>
