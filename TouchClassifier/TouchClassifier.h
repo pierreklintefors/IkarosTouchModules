@@ -31,7 +31,7 @@ public:
 
     float **    internal_matrix;
     int         internal_matrix_size_y;
-
+    
     int         internal_matrix_row;
 
     float **    output_matrix;

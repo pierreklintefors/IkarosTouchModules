@@ -17,7 +17,7 @@
 
 	<input
 		name="INPUT1"
-		description="Input from the TouchBoardInputModule. A binary array (active/inactive) of the number of electrodes of the TouchBoard."
+		description="Input from the module: TouchBoardInput. A binary array (active/inactive) of the number of electrodes of the TouchBoard."
 	/>
 
 
@@ -25,17 +25,25 @@
 	<output
 		name="OUTPUT1"
 		description="Output of classifier of touch. Every row in this matrix will represent different type of touch
-								and the element of every row corresponds to the electrodes of the touchboard"
+								and the element of every row corresponds to the electrodes of the touchboard:
+								 Classification of touch- description of rows
+						     	Row 0 - Binary array of active electrodes
+						     	Row 1 - Mean of number of ticks where electrodes where active- higher number indicates longer touch
+						     	Row 2 - Difference in mean between first half of the row and second half of the rows.
+						     	Row 3 - Number of new touches per field
+						     	Row 4 - Strokes. If a stroke is detected. The sequential order of activation will be displayed on this row.
+						            	Maximum 3 fields can be involved in the sam stroke and will get values 1, 2 and 3."
 		size_x = "12"
 		size_y = "5"
 	/>
 
 	<output
 		name="OUTPUT2"
-		description=" Matrix, where row get filled with output-arrays from the TouchBoardInputModule. The number of rows (set in size_y) determines the
-									time fram for when the classification of touch can tack place. One row corresponds with one tick(). "
+		description=" Matrix, where the rows will be filled with output-arrays from the module TouchBoardInput. The number of rows (set in size_y)
+		 							determines the time frame for when the calculations can be performed and therby when classification can take place.
+									One row corresponds with one tick(). "
 		size_x = "12"
-		size_y = "400"
+		size_y = "300"
 
 	/>
 

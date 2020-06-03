@@ -8,7 +8,6 @@
 #include "TouchClassifier.h"
 
 
-//#include "../../Kernel/IKAROS_Serial.h"
 
 #include <iostream>
 #include <sstream>
@@ -24,7 +23,7 @@ using namespace std;
 
 TouchClassifier::~TouchClassifier()
 {
-    // Destroy data structures that you allocated in Init.
+    // Destroy data structures that is allocated in Init.
     destroy_matrix(internal_matrix);
 
 }
@@ -33,7 +32,6 @@ TouchClassifier::~TouchClassifier()
 void
 TouchClassifier::Init()
 {
-
 
     // Get pointer to a matrix and treat it as a matrix. If an array is
     // connected to this input, size_y will be 1.
@@ -56,7 +54,7 @@ TouchClassifier::Init()
     //Create an internal matrix to perform calculations with
     internal_matrix = create_matrix(input_array_size, internal_matrix_size_y);
 
-    int internal_matrix_row =  0; // The row count, determining whcih rows thats going to be filled in internal_matrix
+    int internal_matrix_row =  0; // The row count, determining which row is going to be filled in internal_matrix
 }
 
 
@@ -75,7 +73,7 @@ TouchClassifier::Tick()
     internal_matrix_row++; //After this tick next row of internal_matrix will be filled.
 
 
-  //When the internal matrix calculations are performed on the matrix
+  //When the internal matrix is full, calculations are performed on the matrix
   if(internal_matrix_row == internal_matrix_size_y)
   {
     //Printing the internal_matrix
@@ -99,13 +97,13 @@ TouchClassifier::Tick()
           output_matrix[j][i] = internal_matrix[j][i];
     }
 
-    //create a pointer array to get meanarray from the function MatrixMean().
+    //create a pointer array to get an array of means from the function MatrixMean().
     float* meanMatrixCol;
 
     //Create a array to store the values
     float fullMatrixMeanArray[input_array_size];
     meanMatrixCol = MatrixMean(0, internal_matrix_size_y );// (MatrixMean(int start, int end))
-    //Copy values of the pointer
+    //Creates a copy array to save value of the pointer
     copy_array(fullMatrixMeanArray, meanMatrixCol, input_array_size);
 
     // //Create an array to store each column of first half of matrix
@@ -129,9 +127,7 @@ TouchClassifier::Tick()
 
 
 
-
-
-    // Classification of touch- description of rows
+    // Classification matrix of touch - description of rows
     // Row 0 - Binary array of active electrodes
     // Row 1 - Mean of number of ticks where electrodes where active- higher number indicates longer touch
     // Row 2 - Difference in mean between first half of the row and second half of the rows.
@@ -139,6 +135,13 @@ TouchClassifier::Tick()
     // Row 4 - Strokes. If a stroke is detected. The sequential order of activation will be displayed on this row.
     //        Maximum 3 fields can be involved in the sam stroke and will get values 1, 2 and 3.
 
+
+
+    //Identifies strokes
+    float * strokeArray;
+    strokeArray = CheckingForStrokes();
+
+    //Calculates number of new touches
     int numberOfTouch;
     int numberOfTouchPerCol[input_array_size];
 
@@ -159,14 +162,9 @@ TouchClassifier::Tick()
 
     }// for col
 
-    //Identifies strokes
-    float * strokeArray;
-    strokeArray = CheckingForStrokes();
 
 
-
-
-    //Filling Row 1, Row 2 and Row 3 of classifier_matrix
+    //Filling rows of classifier_matrix
     for(int i = 0; i < classifier_matrix_size_x; i++)
     {
       if(fullMatrixMeanArray[i] > 0)
@@ -176,7 +174,7 @@ TouchClassifier::Tick()
       classifier_matrix[1][i] = fullMatrixMeanArray[i]; //Mean of number of active ticks
       classifier_matrix[2][i] = meanMatrixDiff[i]; //Differences in mean between first and second half.
       classifier_matrix[3][i] = numberOfTouchPerCol[i]; //Number of touches for every electrode
-      classifier_matrix[4][i] = strokeArray[i]; //Sequence
+      classifier_matrix[4][i] = strokeArray[i]; //Sequence of electrodes involved in stroke
     }
 
 
@@ -252,7 +250,7 @@ TouchClassifier::MatrixMean(int startPoint, int endPoint)
 }
 
 //This function checks if the electrodes has been activated in a sequential manner that resembles a stroke.
-//Every field/electrode has 3-5 possible directions where activations
+//Every field/electrode has 3-5 possible directions where activations of adjacent fields can happen
 float*
 TouchClassifier::CheckingForStrokes()
 {
@@ -283,7 +281,7 @@ TouchClassifier::CheckingForStrokes()
 
 
   float sequence = 0; //int to represent sequence of activastion of electrodes involved in stroke
-  int delay = 20; //number of ticks berfore checking for second field involved in stroke
+  int delay = 20; //number of ticks berfore checking if adjacent field was active
 
 //Nested for-loop searching the matrix for an active electrode that has become inactive.
   for(int col = 0; col < classifier_matrix_size_x; col++)
@@ -299,7 +297,7 @@ TouchClassifier::CheckingForStrokes()
         std::cout << row << '\n';
         std::cout << '\n';
 
-        //Switch statement testing condotions in terms of sequential activations of adjacent fields to the active electrode that has become inactive (col)
+        //Switch statement testing conditions, in terms of sequential activations of adjacent fields to the active electrode that has become inactive (col)
         switch (col)
         {
           case 0: //FrontTopLeftCorner (Direction 1: right upwards; Direction 2: left downwards; Direction 3: to back; Direction 4: to front)
