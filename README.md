@@ -1,6 +1,6 @@
 # IkarosTouchModules
 
-This project was conducted at Lund University. The project aimed to create a somatosensory system deployed in the humanoid platform Epi [[1]](#1). The somatosensory system was done by utilizing conductive inc and an arduino board. The code is written in c++ and can be applied as modules in the infrastructure IKAROS (available repository https://github.com/ikaros-project/ikaros) [[2]](#2). The repository contains two modules, one for input and one for classification of touch. 
+This project was conducted at Lund University. The project aimed to create a somatosensory system deployed in the humanoid platform Epi [[1]](#1). The somatosensory system was done by utilizing conductive inc and an arduino board. The code is written in c++ and can be applied as modules in the infrastructure IKAROS (available repository https://github.com/ikaros-project/ikaros) [[2]](#2). The repository contains two modules, one for input and one for classification of touch, as well as the arduino progam that was uploaded to the board. 
 
 
 
